@@ -12,20 +12,17 @@ To run this, you need to ensure that both the map_server ROS package, and the py
 
 For the map server:
 ```
+cd f1tenth_ws/src
+git clone https://github.com/fjahncke/particle_filter.git
+cd particle_filter
 sudo apt-get update
-rosdep install -r --from-paths src --ignore-src --rosdistro kinetic -y
+rosdep install -r --from-paths src --ignore-src --rosdistro foxy -y
 ```
 
-For [RangeLibc](https://github.com/f1tenth/range_libc):
+Install range_lib:
 
 ```
-sudo pip install cython
-git clone http://github.com/kctess5/range_libc
-cd range_libc/pywrappers
-# on VM
-./compile.sh
-# on car - compiles GPU ray casting methods
-./compile_with_cuda.sh
+See here: https://github.com/fjahncke/range_libc
 ```
 
 # Usage
@@ -33,10 +30,16 @@ cd range_libc/pywrappers
 The majority of parameters you might want to tweak are in the launch/localize.launch file. You may have to modify the "odometry_topic" or "scan_topic" parameters to match your environment.
 
 ```
-roslaunch particle_filter localize.launch
+1. Build and source
+2. ros2 launch particle_filter localize_launch.py
 ```
 
+! The map only works with PNG Images. Simply use an online converter to convert your maps from PGM to PNG. !
+
 Once the particle filter is running, you can visualize the map and other particle filter visualization message in RViz. Use the "2D Pose Estimate" tool from the RViz toolbar to initialize the particle locations.
+
+Add the general /map topic and the particle filter odometry.
+
 
 See [launch/localize.launch](/particle_filter/launch/localize.launch) for docs on available parameters and arguments.
 
